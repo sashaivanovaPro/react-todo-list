@@ -24,11 +24,9 @@ function App() {
 
   // console.log(tasks);
 
-  let [filter, setFilter] = useState<FilterValuesType>("all");
-
   function removeTask(id: string) {
     let changedTasks = tasks.filter((task) => task.id !== id);
-    console.log(changedTasks);
+    // console.log(changedTasks);
     setTasks(changedTasks);
   }
 
@@ -37,6 +35,16 @@ function App() {
     let newTasks = [newTask, ...tasks];
     setTasks(newTasks);
   }
+
+  function changeStatus(taskId: string, isDone: boolean) {
+    let task = tasks.find((task) => task.id === taskId);
+    if (task) {
+      task.isDone = isDone;
+    }
+    setTasks([...tasks]);
+  }
+
+  let [filter, setFilter] = useState<FilterValuesType>("all");
 
   function changeFilter(value: FilterValuesType) {
     setFilter(value);
@@ -51,12 +59,6 @@ function App() {
     tasksForTodoList = tasks.filter((task) => task.isDone === false);
   }
 
-  // let task2: Array<TaskType> = [
-  //   { id: 1, title: "Terminator", isDone: true },
-  //   { id: 2, title: "XXX", isDone: true },
-  //   // { id: 3, title: "Gentlemen", isDone: true },
-  // ];
-
   return (
     <div className="App">
       <TodoList
@@ -65,11 +67,9 @@ function App() {
         removeTask={removeTask}
         changeFilter={changeFilter}
         addTask={addTask}
+        changeTaskStatus={changeStatus}
+        filter={filter}
       />
-      {/* <TodoList title="Movies" tasks={task2} /> */}
-
-      {/* <Accordion titleValue={"Menu"} stars={1} />
-      <Accordion titleValue={"Users"} stars={5} /> */}
     </div>
   );
 }
